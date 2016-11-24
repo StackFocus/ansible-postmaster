@@ -1,0 +1,38 @@
+Listen {{ postmaster_apache_port }}
+
+<VirtualHost *:{{ postmaster_apache_port }}>
+    {% if postmaster_apache_vhost_extra_settings is defined %}
+    {{ postmaster_apache_vhost_extra_settings }}
+    {% endif %}
+
+    {% if postmaster_apache_ssl_cert is defined and postmaster_apache_ssl_key is defined %}
+
+    SSLEngine on
+    SSLCipherSuite {{ postmaster_apache_ssl_cipher_suite }}
+    SSLProtocol {{ postmaster_apache_ssl_protocol }}
+    SSLHonorCipherOrder On
+    SSLCompression Off
+    SSLCertificateFile /etc/apache2/ssl/postmaster.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/postmaster.key
+    {% if postmaster_apache_ssl_chain is defined %}
+
+    SSLCertificateChainFile /etc/apache2/ssl/postmaster_chain.crt
+    {% endif %}
+    {% endif %}
+
+    WSGIDaemonProcess postmaster user=postmaster group=www-data threads=5
+    WSGIScriptAlias / /opt/postmaster/git/postmaster.wsgi
+    ErrorLog /opt/postmaster/logs/postmaster.error.log
+    CustomLog /opt/postmaster/logs/postmaster.access.log common
+
+    <Directory /opt/postmaster/git/>
+        WSGIProcessGroup postmaster
+        WSGIApplicationGroup %{GLOBAL}
+        Require all granted
+    </Directory>
+
+    Alias /static /opt/postmaster/git/postmaster/static
+    <Directory /opt/postmaster/git/postmaster/static/>
+        Require all granted
+    </Directory>
+</VirtualHost>

@@ -1,0 +1,62 @@
+---
+# TODO: Replace this with `manage.py version` in the next release
+- name: Check if the current PostMaster version is {{ postmaster_version }}
+  command: "grep -Fxq \"__version__ = '{{ postmaster_version }}'\" /opt/postmaster/git/postmaster/__init__.py"
+  register: postmaster_version_check
+  failed_when: false
+  changed_when: False
+
+- name: Setting the postmaster_desired_version variable
+  set_fact:
+    postmaster_desired_version: "{{ postmaster_version_check.rc == 0 }}"
+
+- name: "Download the source of PostMaster v{{ postmaster_version }}"
+  get_url:
+    url: "https://github.com/StackFocus/PostMaster/archive/v{{ postmaster_version }}.tar.gz"
+    dest: /opt/postmaster/postmaster_latest.tar.gz
+    mode: 0770
+  when: not postmaster_desired_version
+
+- name: Extract the latest PostMaster
+  unarchive:
+    src: /opt/postmaster/postmaster_latest.tar.gz
+    dest: /opt/postmaster/
+    owner: postmaster
+    group: www-data
+    mode: 0770
+    remote_src: yes
+  when: not postmaster_desired_version
+
+- name: Checking if config.py exists
+  stat:
+    path: /opt/postmaster/git/config.py
+  register: config_file
+  when: not postmaster_desired_version
+
+- name: Retaining the existing config.py
+  copy:
+    src: /opt/postmaster/git/config.py
+    dest: "/opt/postmaster/PostMaster-{{ postmaster_version }}/config.py"
+    remote_src: True
+    owner: postmaster
+    group: www-data
+    mode: 0660
+  when: not postmaster_desired_version and config_file.stat.exists
+
+- name: Removing /opt/postmaster/git if it exists
+  file:
+    path: /opt/postmaster/git
+    state: absent
+  when: not postmaster_desired_version
+
+# This has to be the command module because Ansible doesn't support remote copies that are recursive
+- name: Move the extracted PostMaster contents to /opt/postmaster/git
+  command: "mv /opt/postmaster/PostMaster-{{ postmaster_version }} /opt/postmaster/git"
+  notify: reload apache
+  when: not postmaster_desired_version
+
+- name: Remove the PostMaster archive
+  file:
+    path: /opt/postmaster/postmaster_latest.tar.gz
+    state: absent
+  when: not postmaster_desired_version

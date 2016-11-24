@@ -1,0 +1,17 @@
+---
+dependencies:
+- role: geerlingguy.mysql
+  version: 2.4.2
+  when: postmaster_install_mysql
+
+galaxy_info:
+  author: StackFocus
+  description: PostMaster for Ubuntu
+  company: StackFocus
+  license: license (MIT)
+  min_ansible_version: 1.9
+  platforms:
+    - name: Ubuntu
+      versions:
+      - trusty
+      - xenial

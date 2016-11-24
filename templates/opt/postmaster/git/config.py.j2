@@ -1,0 +1,39 @@
+"""
+Author: StackFocus
+File: config.py
+Purpose: config for the app
+"""
+from os import path
+
+
+class BaseConfiguration(object):
+    # We disable CSRF because it interferes with logging in
+    # from anywhere but the form on the login page.
+    # We introduce very little risk by disabling this.
+    WTF_CSRF_ENABLED = False
+    # Make this random (used to generate session keys)
+    SECRET_KEY = '{{ postmaster_secret_key }}'
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    {% if not postmaster_deb_package %}
+
+    SECRET_KEY = '{{ postmaster_secret_key }}'
+    SQLALCHEMY_DATABASE_URI = 'mysql://{{ postmaster_db_user }}:{{ postmaster_db_password }}@{{ postmaster_db_host }}:{{ postmaster_db_port }}/{{ postmaster_db_name }}'
+    {% else %}
+
+    SECRET_KEY = 'ChangeMe'
+    SQLALCHEMY_DATABASE_URI = ''
+    {% endif %}
+
+    basedir = path.abspath(path.dirname(__file__))
+    LOG_LOCATION = '/opt/postmaster/logs/postmaster.log'
+
+
+class TestConfiguration(BaseConfiguration):
+    WTF_CSRF_ENABLED = False
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    DEBUG = True
+
+
+class DevConfiguration(BaseConfiguration):
+    WTF_CSRF_ENABLED = False
+    DEBUG = True
