@@ -1,0 +1,26 @@
+---
+- name: Deploy PostMaster on Vagrant
+  hosts: all
+  become: yes
+
+  vars:
+  - postmaster_db_user: postmaster_user
+  - postmaster_db_password: postmaster_db_password
+  - postmaster_db_host: localhost
+  - postmaster_db_name: servermail
+  - postmaster_migrate_db: True
+  - postmaster_secret_key: SuperSecretKey
+  - postmaster_apache_port: 8080
+  - postmaster_install_mysql: True
+  - mysql_root_password: mysql_root_password
+  - mysql_enabled_on_startup: yes
+  - mysql_databases:
+    - name: "{{ postmaster_db_name }}"
+  - mysql_users:
+    - name: "{{ postmaster_db_user }}"
+      password: "{{ postmaster_db_password }}"
+      host: localhost
+      priv: "{{ postmaster_db_name }}.*:ALL"
+
+  roles:
+   - /opt/ansible-postmaster

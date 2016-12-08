@@ -1,0 +1,39 @@
+---
+- name: Enable the ssl module for Apache
+  apache2_module:
+    state: present
+    name: ssl
+  notify: restart apache
+
+- name: Create Apache ssl directory
+  file:
+    path: /etc/apache2/ssl
+    state: directory
+    owner: root
+    group: root
+    mode: 0770
+
+- name: Copy over SSL cert
+  copy:
+    src: "{{ postmaster_apache_ssl_cert }}"
+    dest: /etc/apache2/ssl/postmaster.crt
+    owner: root
+    group: root
+    mode: 0660
+
+- name: Copy over SSL key
+  copy:
+    src: "{{ postmaster_apache_ssl_key }}"
+    dest: /etc/apache2/ssl/postmaster.key
+    owner: root
+    group: root
+    mode: 0660
+
+- name: Copy over SSL chain
+  copy:
+    src: "{{ postmaster_apache_ssl_chain }}"
+    dest: /etc/apache2/ssl/postmaster_chain.crt
+    owner: root
+    group: root
+    mode: 0664
+  when: postmaster_apache_ssl_chain is defined
