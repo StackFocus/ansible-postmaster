@@ -74,12 +74,6 @@
     chdir: /opt/postmaster/git
   when: postmaster_migrate_db and not postmaster_deb_package
 
-- name: Check whether to create default config.py (deb package only)
-  stat:
-    path: /opt/postmaster/git/config.py
-  register: postmaster_config_file
-  when: postmaster_deb_package
-
 - name: Check whether to create config.py (deb package only)
   stat:
     path: /opt/postmaster/git/config.py
