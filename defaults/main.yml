@@ -15,6 +15,7 @@ postmaster_install_mysql: False
 postmaster_clean_virtualenv: False
 # This should be True when the deb package uses the role
 postmaster_deb_package: False
+postmaster_apache_ssl_remote_src: False
 # This is hard coded because installation for every PostMaster version may be
 # different, so there will be one playbook per version of PostMaster
 # TODO: In future releases add v to the version
