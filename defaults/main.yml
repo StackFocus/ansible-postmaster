@@ -1,14 +1,14 @@
 ---
 postmaster_apache_port: 8082
 # This upgrades the database schema to the current version being installed
-# The migration will not run regardless of this value when postmaster_deb_packge
-# is True
+# The migration will not run regardless of this value when
+# postmaster_deb_package is True
+postmaster_migrate_db: True
 postmaster_apache_ssl_cipher_suite: AES256+EECDH:AES256+EDH
 postmaster_apache_ssl_protocol: All -SSLv2 -SSLv3
 postmaster_db_host: localhost
 postmaster_db_name: servermail
 postmaster_db_port: 3306
-postmaster_migrate_db: True
 # This runs the mysql role
 postmaster_install_mysql: False
 # This recreates the virtulenv from scratch
