@@ -19,9 +19,18 @@ This role must be run with sudo or as root, otherwise the role will fail.
 * **postmaster_install_mysql** - determines whether or not to install MySQL using the [geerlingguy.mysql](https://github.com/geerlingguy/ansible-role-mysql) role.
 Read the documentation of that role to find out the configuration options needed for MySQL. This defaults to `False`.
 * **postmaster_apache_port** - the port that the PostMaster virtual host listens on.
-* **postmaster_apache_ssl_cert** - the local path to the SSL certificate to use on the PostMaster virtual host. If this is not set, the virtual host will not use SSL.
-* **postmaster_apache_ssl_key** - the local path to the SSL key to use on the PostMaster virtual host. If this is not set, the virtual host will not use SSL.
-* **postmaster_apache_ssl_chain** - the local path to the SSL certificate chain to use on the PostMaster virtual host. This is not required when configuring SSL.
+* **postmaster_apache_ssl_cert** - the path on the target node to the SSL certificate to use on the PostMaster virtual host.
+If this is not set, the virtual host will not use SSL.
+* **postmaster_apache_ssl_key** - the path on the target node to the SSL key to use on the PostMaster virtual host.
+If this is not set, the virtual host will not use SSL.
+* **postmaster_apache_ssl_chain** - the path on the target node to the SSL certificate chain to use on the PostMaster virtual host.
+This is not required when configuring SSL, but it is required if `postmaster_apache_ssl_local_chain` is defined.
+* **postmaster_apache_ssl_local_cert** - the local path to the SSL certificate to copy over to the path defined in `postmaster_apache_ssl_cert`.
+This is not required.
+* **postmaster_apache_ssl_local_key** - the local path to the SSL key to copy over to the path defined in `postmaster_apache_ssl_key`.
+This is not required.
+* **postmaster_apache_ssl_local_chain** - the local path to the SSL certificate chain to copy over to the path defined in `postmaster_apache_ssl_chain`.
+This is not required.
 * **postmaster_apache_ssl_cipher_suite** - the SSL cipher suite that the PostMaster virtual host will allow. This defaults to `AES256+EECDH:AES256+EDH`.
 * **postmaster_apache_ssl_protocol** - the SSL protocols that the PostMaster virtual host will allow. This defaults to `All -SSLv2 -SSLv3`.
 * **postmaster_clean_virtualenv** - delete and recreate the PostMaster virtualenv. This is useful between upgrades to delete old and no longer used Python dependencies.

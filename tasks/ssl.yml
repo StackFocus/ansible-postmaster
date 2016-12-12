@@ -15,25 +15,27 @@
 
 - name: Copy over SSL cert
   copy:
-    src: "{{ postmaster_apache_ssl_cert }}"
-    dest: /etc/apache2/ssl/postmaster.crt
+    src: "{{ postmaster_apache_ssl_local_cert }}"
+    dest: "{{ postmaster_apache_ssl_cert }}"
     owner: root
     group: root
     mode: 0660
+  when: postmaster_apache_ssl_local_cert is defined
 
 - name: Copy over SSL key
   copy:
-    src: "{{ postmaster_apache_ssl_key }}"
-    dest: /etc/apache2/ssl/postmaster.key
+    src: "{{ postmaster_apache_ssl_local_key }}"
+    dest: "{{ postmaster_apache_ssl_key }}"
     owner: root
     group: root
     mode: 0660
+  when: postmaster_apache_ssl_local_key is defined
 
 - name: Copy over SSL chain
   copy:
-    src: "{{ postmaster_apache_ssl_chain }}"
-    dest: /etc/apache2/ssl/postmaster_chain.crt
+    src: "{{ postmaster_apache_ssl_local_chain }}"
+    dest: "{{ postmaster_apache_ssl_chain }}"
     owner: root
     group: root
     mode: 0664
-  when: postmaster_apache_ssl_chain is defined
+  when: postmaster_apache_ssl_local_chain is defined

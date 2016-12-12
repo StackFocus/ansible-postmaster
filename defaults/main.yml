@@ -1,20 +1,21 @@
 ---
 postmaster_apache_port: 8082
 # This upgrades the database schema to the current version being installed
-# The migration will not run regardless of this value when postmaster_deb_packge
-# is True
+# The migration will not run regardless of this value when
+# postmaster_deb_package is True
+postmaster_migrate_db: True
 postmaster_apache_ssl_cipher_suite: AES256+EECDH:AES256+EDH
 postmaster_apache_ssl_protocol: All -SSLv2 -SSLv3
 postmaster_db_host: localhost
 postmaster_db_name: servermail
 postmaster_db_port: 3306
-postmaster_migrate_db: True
 # This runs the mysql role
 postmaster_install_mysql: False
 # This recreates the virtulenv from scratch
 postmaster_clean_virtualenv: False
 # This should be True when the deb package uses the role
 postmaster_deb_package: False
+postmaster_apache_ssl_remote_src: False
 # This is hard coded because installation for every PostMaster version may be
 # different, so there will be one playbook per version of PostMaster
 # TODO: In future releases add v to the version
