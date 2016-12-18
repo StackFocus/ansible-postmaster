@@ -18,6 +18,7 @@ This role must be run with sudo or as root, otherwise the role will fail.
 * **postmaster_migrate_db** - determines whether or not to migrate/upgrade the PostMaster database. This defaults to `True`.
 * **postmaster_install_mysql** - determines whether or not to install MySQL using the [geerlingguy.mysql](https://github.com/geerlingguy/ansible-role-mysql) role.
 Read the documentation of that role to find out the configuration options needed for MySQL. This defaults to `False`.
+* **postmaster_apache_vhost_extra_settings** - this accepts a multi-line string containing any Apache settings that should apply to the PostMaster VirtualHost. This is not set by default.
 * **postmaster_apache_port** - the port that the PostMaster virtual host listens on.
 * **postmaster_apache_ssl_cert** - the path on the target node to the SSL certificate to use on the PostMaster virtual host.
 If this is not set, the virtual host will not use SSL.
