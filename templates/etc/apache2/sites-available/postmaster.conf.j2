@@ -12,11 +12,11 @@ Listen {{ postmaster_apache_port }}
     SSLProtocol {{ postmaster_apache_ssl_protocol }}
     SSLHonorCipherOrder On
     SSLCompression Off
-    SSLCertificateFile /etc/apache2/ssl/postmaster.crt
-    SSLCertificateKeyFile /etc/apache2/ssl/postmaster.key
+    SSLCertificateFile {{ postmaster_apache_ssl_cert }}
+    SSLCertificateKeyFile {{ postmaster_apache_ssl_key }}
     {% if postmaster_apache_ssl_chain is defined %}
 
-    SSLCertificateChainFile /etc/apache2/ssl/postmaster_chain.crt
+    SSLCertificateChainFile {{ postmaster_apache_ssl_chain }}
     {% endif %}
     {% endif %}
 
