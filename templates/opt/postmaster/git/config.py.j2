@@ -17,7 +17,7 @@ class BaseConfiguration(object):
     {% if not postmaster_deb_package %}
 
     SECRET_KEY = '{{ postmaster_secret_key }}'
-    SQLALCHEMY_DATABASE_URI = 'mysql://{{ postmaster_db_user }}:{{ postmaster_db_password }}@{{ postmaster_db_host }}:{{ postmaster_db_port }}/{{ postmaster_db_name }}'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{{ postmaster_db_user }}:{{ postmaster_db_password }}@{{ postmaster_db_host }}:{{ postmaster_db_port }}/{{ postmaster_db_name }}'
     {% else %}
 
     SECRET_KEY = 'ChangeMe'
