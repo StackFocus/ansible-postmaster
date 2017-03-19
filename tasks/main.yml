@@ -53,7 +53,7 @@
     recurse: yes
 
 - include: source.yml
-  when: not postmaster_deb_package
+  when: not postmaster_deb_package and not postmaster_vagrant_install
 
 - name: Install the python dependencies
   pip:
