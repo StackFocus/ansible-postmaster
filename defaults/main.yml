@@ -19,3 +19,6 @@ postmaster_apache_ssl_remote_src: False
 # This is hard coded because installation for every PostMaster version may be
 # different, so there will be one role version per version of PostMaster
 postmaster_version: v1.2.0.0
+# This should be True when run in Vagrant. It skips the source code installation
+# since Vagrant manages that
+postmaster_vagrant_install: False
