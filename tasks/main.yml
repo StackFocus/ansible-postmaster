@@ -72,7 +72,7 @@
   command: /opt/postmaster/env/bin/python /opt/postmaster/git/manage.py upgradedb
   args:
     chdir: /opt/postmaster/git
-  when: postmaster_migrate_db and not postmaster_deb_package
+  when: postmaster_migrate_db
 
 - name: Check whether to create config.py (deb package only)
   stat:
