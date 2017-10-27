@@ -70,9 +70,15 @@
   template:
     src: opt/postmaster/git/config.py.j2
     dest: /opt/postmaster/git/config.py
+
+# You can't set permissions on synced folders in Vagrant
+- name: Set the permissions on the configuration file
+  file:
+    path: /opt/postmaster/git/config.py
     mode: 0660
     owner: postmaster
     group: www-data
+  when: not postmaster_vagrant_install
 
 - name: Migrate the database
   command: /opt/postmaster/env/bin/python /opt/postmaster/git/manage.py upgradedb
@@ -114,3 +120,4 @@
     owner: root
     group: root
   notify: reload apache
+  when: not postmaster_vagrant_install
